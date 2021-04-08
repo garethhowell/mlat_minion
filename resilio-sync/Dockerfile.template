@@ -1,0 +1,4 @@
+FROM resilio/sync
+
+MKDIR /data
+
