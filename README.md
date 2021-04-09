@@ -1,8 +1,9 @@
 # OV_MLAT_Tool - GB3OV Mulilateration Tool
-This project is an experiment to see whether we can use multi-lateration to identify the source of RF signals
+This project is an experiment to see whether we can use [multilateration] to identify the location of RF signals
 using a network of Raspberry Pis with RTL-SDR dongles.
 The project was inspired by the work of [Stefan Scholl - DC9ST][DC9ST] and presented by him at the [Software Defined Radio Forum 2017][SDRF] at Frederickshafen.
 
+[multilateration]: https://en.wikipedia.org/wiki/Multilateration
 [DC9ST]: http://www.panoradio-sdr.de/
 [SDRF]: http://www.panoradio-sdr.de/tdoa-transmitter-localization-with-rtl-sdrs/
 
@@ -15,12 +16,14 @@ Locating these devices and then negotiating with the operator to - hopefully - c
 can be quite time-consuming. 
 Hence this project to "automate" the positioning task.
 
+[GB3OV]: https://repeaterbook.com/row_repeaters/details.php?state_id=GB&ID=3974
+
 Any additional use might be to locate deliberate interference by other licensed amateurs; 
 however this is more difficult because they often transmit over an existing transmission.
 
 # Proposed Method
-The general idea is to produce a small number (probably 3) of self-contained units that can be installed at known locations around the repeater. 
-These units will use the techniques described in [Stefan's paper][SDRF] to capture and send an IQ data stream to a fourth computer running the analysis software.
+The general idea is to produce a small number (probably 3-4) of self-contained units that can be installed at known locations around the repeater. 
+These units will use the techniques described in [Stefan's paper][SDRF] to capture and send an IQ data stream to a Master Station running the analysis software.
 The results of the analysis will be displayed on a website.
 
 # Architecture
