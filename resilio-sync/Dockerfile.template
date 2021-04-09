@@ -1,4 +1,24 @@
-FROM resilio/sync
+FROM balenalib/%%BALENA_MACHINE_NAME%%
 
-MKDIR /data
+RUN echo "deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free" | sudo tee /etc/apt/sources.list.d/resilio-sync.list && \
+    curl -L https://linux-packages.resilio.com/resilio-sync/key.asc | sudo apt-key add && \
+    install_packages sed resilio-sync
+
+# webui port
+EXPOSE 8888/tcp
+
+# listening port
+EXPOSE 55555/tcp
+
+# listening port
+EXPOSE 55555/udp 
+
+# copy sample resilio-sync config over
+COPY sample_config /tmp/config.sync
+
+COPY scripts /usr/src/
+
+RUN chmod +x /usr/src/*.sh
+
+CMD ["/usr/src/start.sh"]
 
