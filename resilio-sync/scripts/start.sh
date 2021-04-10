@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 
 #export MINION_NAME=M5KVK
 #export FOLDER_SECRET=xxx
@@ -51,6 +51,9 @@ cp /tmp/config.sync .
 ls -l
 
 sed -i 's/MINION_NAME/'"${MINION_NAME}"'/;s/FOLDER_SECRET/'"${FOLDER_SECRET}"'/;s/MASTER_IP/'"${MASTER_IP}"'/' config.sync
+
+# create the sync directory
+mkdir -p /mnt/data/mlat
 
 # Execute sync with a default config
 
