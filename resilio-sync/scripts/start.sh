@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-export MINION_NAME=M5KVK
-export FOLDER_SECRET=xxx
+#export MINION_NAME=M5KVK
+#export FOLDER_SECRET=xxx
+#export MASTER_IP=172.29.12.178
 
 # Check if service has been disabled through the DISABLED_SERVICES environment variable.
 
@@ -24,6 +25,7 @@ missing_variables=false
 
 [ -z "$MINION_NAME" ] && echo "Minion name is missing, will abort startup." && missing_variables=true || echo "Minion name is set: $MINION_NAME"
 [ -z "$FOLDER_SECRET" ] && echo "Resilio Sync folder secret is missing, will abort startup." && missing_variables=true || echo "Folder sync secret is set: $FOLDER_SECRET"
+[ -z "$MASTER_IP" ] && echo "Master IP Address is missing, will abort startup." && missing_variables=true || echo "Folder sync secret is set: $MASTER_IP"
 
 # End defining all the required configuration variables.
 
@@ -48,7 +50,7 @@ cp /tmp/config.sync .
 
 ls -l
 
-sed -i 's/MINION_NAME/${MINION_NAME}/;s/FOLDER_SECRET/${FOLDER_SECRET}/' config.sync
+sed -i 's/MINION_NAME/'"${MINION_NAME}"'/;s/FOLDER_SECRET/'"${FOLDER_SECRET}"'/;s/MASTER_IP/'"${MASTER_IP}"'/' config.sync
 
 # Execute sync with a default config
 

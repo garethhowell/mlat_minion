@@ -26,7 +26,7 @@
   ,"shared_folders" :
   [
     {
-      "secret" : "MY_SECRET_1", // required field - use --generate-secret in command line to create new secret
+      "secret" : "FOLDER_SECRET", // required field - use --generate-secret in command line to create new secret
       "dir" : "/mnt/data", // * required field
       "use_relay_server" : true, //  use relay server when direct connection fails
       "use_tracker" : true,
@@ -36,7 +36,7 @@
       "selective_sync" : false, // add folder in selective sync mode
       "known_hosts" : // specify hosts to attempt connection without additional search
       [
-        "172.29.12.180:55555"
+        "MASTER_IP:55555"
       ]
     }
   ]
