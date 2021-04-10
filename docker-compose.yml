@@ -17,20 +17,18 @@ services:
 #    labels:
 #      io.balena.features.dbus: '1'
 #      io.balena.features.firmware: '1'
-  resilio-sync:
-    build: ./resilio-sync
-    restart: always
-    network_mode: host
-    volumes:
-      - 'storage:/mnt/data'
-      - 'resilio:/mnt/sync'
-    ports:
-      - '5555:5555'
-#  mlat:
-#    build: ./mlat
+#  resilio-sync:
+#    build: ./resilio-sync
 #    restart: always
-#    privileged: true
+#    network_mode: host
 #    volumes:
-#      - 'storage:/data'
+#      - 'storage:/mnt/data'
 #      - 'resilio:/mnt/sync'
-  
+#    ports:
+#      - '5555:5555'
+  mlat:
+    build: ./mlat
+    restart: always
+    privileged: true
+    volumes:
+      - 'storage:/mnt/data'  
