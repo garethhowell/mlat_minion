@@ -1,1 +1,29 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%% as build
+
 ENV UDEV=1
+
+RUN install_packages build-essential git cmake libusb-1.0
+
+WORKDIR /tmp
+
+RUN git clone https://github.com/DC9ST/librtlsdr-2freq.git sdr
+RUN cd sdr
+RUN mkdir build && cd build
+RUN cmake ../
+RUN make
+
+#FROM balenalib/%%BALENA_MACHINE_NAME%% as run
+
+#RUN mkdir -p /mnt/data
+
+#WORKDIR /usr/src
+
+#COPY --from=build rtl_sdr .
+
+COPY scripts /usr/src/
+
+RUN chmod +x /usr/src/*.sh
+
+CMD ["/usr/src/start.sh"]
+
+
