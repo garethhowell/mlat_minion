@@ -1,29 +1,41 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%% as build
 
+# Allow this service to access devices on the host
 ENV UDEV=1
 
-RUN install_packages build-essential git cmake libusb-1.0
+# Create the mount point for the storage volume
+RUN mkdir -p /mnt/data
+
+# Install the necessary packages to allow us to build rtl-sdr and mlat
+RUN install_packages build-essential git cmake libusb-1.0 mqtt mqtt-clients python3.9
+
+# Update pip etc.
+RUN python3.9 -m pip install --no-cache-dir --upgrade \
+    pip \
+    setuptools \
+    wheel
 
 WORKDIR /tmp
 
-RUN git clone https://github.com/DC9ST/librtlsdr-2freq.git sdr
-RUN cd sdr
-RUN mkdir build && cd build
+# Clone and compile the modified version on librtlsdr-2freq (to detach the kernel driver prior to running)
+RUN git clone https://github.com/garethhowell/librtlsdr-2freq.git sdr
+RUN mkdir /tmp/sdr/build
+WORKDIR /tmp/sdr/build
 RUN cmake ../
 RUN make
 
-#FROM balenalib/%%BALENA_MACHINE_NAME%% as run
+WORKDIR /usr/src
 
-#RUN mkdir -p /mnt/data
+# Install any python requirements
+COPY requirements.txt .
+RUN python3.9 -m pip install --no-cache-dir \
+    -r requirements.txt
 
-#WORKDIR /usr/src
+# Copy across the scripts and python
+COPY *.sh *.py /usr/src/
 
-#COPY --from=build rtl_sdr .
-
-COPY scripts /usr/src/
-
+# Make the scripts executable
 RUN chmod +x /usr/src/*.sh
 
+# And run it...
 CMD ["/usr/src/start.sh"]
-
-
